@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "slugify": "^1.6.5"
   }
 }

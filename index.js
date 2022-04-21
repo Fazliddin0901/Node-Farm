@@ -66,9 +66,11 @@
 const fs = require("fs");
 const http = require("http");
 const url = require("url");
-
+const slugify = require("slugify");
 const replaceFunc = require("./modules/ReplaceFunctions.js");
 
+const slug = slugify("salom buvottimi ", "_");
+console.log(slug);
 const about = fs.readFileSync("./html/about.html", "utf-8");
 const home = fs.readFileSync("./html/home.html", "utf-8");
 
@@ -91,6 +93,7 @@ const server = http.createServer((req, res) => {
 
   let urlcha = req.url;
   let query = +url.parse(urlcha, true).query.id;
+  console.log(url.parse(urlcha, true));
 
   if (urlcha === "/overview" || urlcha == "/") {
     res.writeHead(200, {
@@ -99,8 +102,10 @@ const server = http.createServer((req, res) => {
     res.end(output);
   } else if (urlcha == `/product?id=${query}`) {
     let obj = dataObj.find((val) => val.id === query);
+    req.url = slugify(obj.productName);
+
     let productHTML = replaceFunc(product, obj);
-    console.log(productHTML);
+
     res.writeHead(200, {
       "content-type": "text/html",
     });
